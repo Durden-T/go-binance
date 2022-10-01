@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/adshao/go-binance/v2/common"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/Durden-T/go-binance/v2/common"
 )
 
 type serverServiceTestSuite struct {
