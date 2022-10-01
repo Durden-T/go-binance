@@ -266,7 +266,7 @@ func NewClient(apiKey, secretKey string) *Client {
 	}
 }
 
-//NewProxiedClient passing a proxy url
+// NewProxiedClient passing a proxy url
 func NewProxiedClient(apiKey, secretKey, proxyUrl string) *Client {
 	proxy, err := url.Parse(proxyUrl)
 	if err != nil {
@@ -802,6 +802,11 @@ func (c *Client) NewSubaccountAssetsService() *SubaccountAssetsService {
 // NewSubaccountSpotSummaryService init subaccount spot summary
 func (c *Client) NewSubaccountSpotSummaryService() *SubaccountSpotSummaryService {
 	return &SubaccountSpotSummaryService{c: c}
+}
+
+// NewSubaccountDepositAddressService init subaccount deposit address service
+func (c *Client) NewSubaccountDepositAddressService() *SubaccountDepositAddressService {
+	return &SubaccountDepositAddressService{c: c}
 }
 
 // NewAssetDividendService init the asset dividend list service
