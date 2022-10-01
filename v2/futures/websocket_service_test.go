@@ -714,9 +714,9 @@ func (s *websocketServiceTestSuite) TestBookTickerServe() {
 			Time:            1568014460893,
 			TransactionTime: 1568014460891,
 			Symbol:          "BNBUSDT",
-			BestBidPrice:    "25.35190000",
+			BestBidPrice:    25.35190000,
 			BestBidQty:      "31.21000000",
-			BestAskPrice:    "25.36520000",
+			BestAskPrice:    25.36520000,
 			BestAskQty:      "40.66000000",
 		}
 		s.assertWsBookTickerEvent(e, event)
@@ -753,9 +753,9 @@ func (s *websocketServiceTestSuite) TestAllBookTickerServe() {
 			Time:            1568014460893,
 			TransactionTime: 1568014460891,
 			Symbol:          "BNBUSDT",
-			BestBidPrice:    "25.35190000",
+			BestBidPrice:    25.35190000,
 			BestBidQty:      "31.21000000",
-			BestAskPrice:    "25.36520000",
+			BestAskPrice:    25.36520000,
 			BestAskQty:      "40.66000000",
 		}
 		s.assertWsBookTickerEvent(e, event)
