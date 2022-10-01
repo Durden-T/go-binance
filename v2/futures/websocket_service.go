@@ -404,15 +404,15 @@ func WsAllMarketTickerServe(handler WsAllMarketTickerHandler, errHandler ErrHand
 
 // WsBookTickerEvent define websocket best book ticker event.
 type WsBookTickerEvent struct {
-	Event           string  `json:"e"`
-	UpdateID        int64   `json:"u"`
-	Time            int64   `json:"E"`
-	TransactionTime int64   `json:"T"`
-	Symbol          string  `json:"s"`
-	BestBidPrice    float64 `json:"b"`
-	BestBidQty      string  `json:"B"`
-	BestAskPrice    float64 `json:"a"`
-	BestAskQty      string  `json:"A"`
+	Event           string `json:"e"`
+	UpdateID        int64  `json:"u"`
+	Time            int64  `json:"E"`
+	TransactionTime int64  `json:"T"`
+	Symbol          string `json:"s"`
+	BestBidPrice    string `json:"b"`
+	BestBidQty      string `json:"B"`
+	BestAskPrice    string `json:"a"`
+	BestAskQty      string `json:"A"`
 }
 
 // WsBookTickerHandler handle websocket that pushes updates to the best bid or ask price or quantity in real-time for a specified symbol.
@@ -833,7 +833,6 @@ type WsUserDataEvent struct {
 
 var wsUserDataEventPool = sync.Pool{
 	New: func() interface{} {
-		println("fuck")
 		return new(WsUserDataEvent)
 	},
 }
