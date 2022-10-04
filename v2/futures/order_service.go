@@ -40,7 +40,6 @@ var createOrderServicePool = sync.Pool{New: func() any {
 }}
 
 func (s *CreateOrderService) Free() {
-	s.c = nil
 	s.positionSide = nil
 	s.timeInForce = nil
 	s.reduceOnly = nil
@@ -577,7 +576,6 @@ var cancelAllOpenOrdersServicePool = sync.Pool{
 }
 
 func (s *CancelAllOpenOrdersService) Free() {
-	s.c = nil
 	cancelAllOpenOrdersServicePool.Put(s)
 }
 

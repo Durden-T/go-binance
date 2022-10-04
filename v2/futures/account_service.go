@@ -21,7 +21,6 @@ var getBalanceServicePool = sync.Pool{New: func() any {
 }}
 
 func (s *GetBalanceService) Free() {
-	s.c = nil
 	getBalanceServicePool.Put(s)
 }
 
