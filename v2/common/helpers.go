@@ -1,7 +1,10 @@
 package common
 
-import "math"
-import "bytes"
+import (
+	"bytes"
+	"math"
+	"unsafe"
+)
 
 // AmountToLotSize converts an amount to a lot sized amount
 func AmountToLotSize(lot float64, precision int, amount float64) float64 {
@@ -18,4 +21,15 @@ func ToJSONList(v []byte) []byte {
 		return b.Bytes()
 	}
 	return v
+}
+
+func StringToBytes(s string) []byte {
+	x := (*[2]uintptr)(unsafe.Pointer(&s))
+	h := [3]uintptr{x[0], x[1], x[1]}
+	//runtime.KeepAlive(&s) //todo 是否有必要？
+	return *(*[]byte)(unsafe.Pointer(&h))
+}
+
+func BytesToString(b []byte) string {
+	return *(*string)(unsafe.Pointer(&b))
 }

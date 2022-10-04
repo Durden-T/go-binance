@@ -4,6 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"sync"
+
+	"github.com/bytedance/sonic"
+
+	"github.com/Durden-T/go-binance/v2/common"
 )
 
 // GetBalanceService get account balance
@@ -11,8 +16,17 @@ type GetBalanceService struct {
 	c *Client
 }
 
+var getBalanceServicePool = sync.Pool{New: func() any {
+	return new(GetBalanceService)
+}}
+
+func (s *GetBalanceService) Free() {
+	s.c = nil
+	getBalanceServicePool.Put(s)
+}
+
 // Do send request
-func (s *GetBalanceService) Do(ctx context.Context, opts ...RequestOption) (res []*Balance, err error) {
+func (s *GetBalanceService) Do(ctx context.Context, opts ...RequestOption) (res []Balance, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/fapi/v2/balance",
@@ -20,12 +34,12 @@ func (s *GetBalanceService) Do(ctx context.Context, opts ...RequestOption) (res 
 	}
 	data, _, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
-		return []*Balance{}, err
+		return []Balance{}, err
 	}
-	res = make([]*Balance, 0)
-	err = json.Unmarshal(data, &res)
+	res = make([]Balance, 0, 2)
+	err = sonic.UnmarshalString(common.BytesToString(data), &res)
 	if err != nil {
-		return []*Balance{}, err
+		return []Balance{}, err
 	}
 	return res, nil
 }

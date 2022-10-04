@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/bytedance/sonic"
+
+	"github.com/Durden-T/go-binance/v2/common"
 )
 
 // Endpoints
@@ -424,19 +426,27 @@ var wsBookTickerPool = sync.Pool{
 	},
 }
 
+func NewWsBookTickerEvent() *WsBookTickerEvent {
+	return wsBookTickerPool.Get().(*WsBookTickerEvent)
+}
+
+func (e *WsBookTickerEvent) Free() {
+	wsBookTickerPool.Put(e)
+}
+
 // WsBookTickerServe serve websocket that pushes updates to the best bid or ask price or quantity in real-time for a specified symbol.
 func WsBookTickerServe(symbol string, handler WsBookTickerHandler, errHandler ErrHandler) (doneC, stopC chan struct{}, err error) {
 	endpoint := fmt.Sprintf("%s/%s@bookTicker", getWsEndpoint(), strings.ToLower(symbol))
 	cfg := newWsConfig(endpoint)
 	wsHandler := func(message []byte) {
-		event := wsBookTickerPool.Get().(*WsBookTickerEvent)
-		err := sonic.Unmarshal(message, event)
-		if err != nil {
+		event := NewWsBookTickerEvent()
+		defer event.Free()
+
+		if err := sonic.UnmarshalString(common.BytesToString(message), event); err != nil {
 			errHandler(err)
 			return
 		}
 		handler(event)
-		wsBookTickerPool.Put(event)
 	}
 	return wsServe(cfg, wsHandler, errHandler)
 }
@@ -831,12 +841,6 @@ type WsUserDataEvent struct {
 	AccountConfigUpdate WsAccountConfigUpdate `json:"ac"`
 }
 
-var wsUserDataEventPool = sync.Pool{
-	New: func() interface{} {
-		return new(WsUserDataEvent)
-	},
-}
-
 // WsAccountUpdate define account update
 type WsAccountUpdate struct {
 	Reason    UserDataEventReasonType `json:"m"`
@@ -914,16 +918,12 @@ func WsUserDataServe(listenKey string, handler WsUserDataHandler, errHandler Err
 	endpoint := fmt.Sprintf("%s/%s", getWsEndpoint(), listenKey)
 	cfg := newWsConfig(endpoint)
 	wsHandler := func(message []byte) {
-		event := wsUserDataEventPool.Get().(*WsUserDataEvent)
-		err := sonic.Unmarshal(message, event)
-		if err != nil {
+		event := new(WsUserDataEvent)
+		if err := sonic.UnmarshalString(common.BytesToString(message), event); err != nil {
 			errHandler(err)
 			return
 		}
 		handler(event)
-		wsUserDataEventPool.Put(event)
 	}
 	return wsServe(cfg, wsHandler, errHandler)
 }
-
-// improve performance

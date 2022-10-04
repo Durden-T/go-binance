@@ -7,6 +7,11 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"sync"
+
+	"github.com/bytedance/sonic"
+
+	"github.com/Durden-T/go-binance/v2/common"
 )
 
 // CreateOrderService create order
@@ -28,6 +33,26 @@ type CreateOrderService struct {
 	priceProtect     *bool
 	newOrderRespType NewOrderRespType
 	closePosition    *bool
+}
+
+var createOrderServicePool = sync.Pool{New: func() any {
+	return new(CreateOrderService)
+}}
+
+func (s *CreateOrderService) Free() {
+	s.c = nil
+	s.positionSide = nil
+	s.timeInForce = nil
+	s.reduceOnly = nil
+	s.price = nil
+	s.newClientOrderID = nil
+	s.stopPrice = nil
+	s.workingType = nil
+	s.activationPrice = nil
+	s.callbackRate = nil
+	s.priceProtect = nil
+	s.closePosition = nil
+	createOrderServicePool.Put(s)
 }
 
 // Symbol set symbol
@@ -188,7 +213,7 @@ func (s *CreateOrderService) Do(ctx context.Context, opts ...RequestOption) (res
 		return nil, err
 	}
 	res = new(CreateOrderResponse)
-	err = json.Unmarshal(data, res)
+	err = sonic.UnmarshalString(common.BytesToString(data), res)
 	res.RateLimitOrder10s = header.Get("X-Mbx-Order-Count-10s")
 	res.RateLimitOrder1m = header.Get("X-Mbx-Order-Count-1m")
 
@@ -543,6 +568,17 @@ type CancelOrderResponse struct {
 type CancelAllOpenOrdersService struct {
 	c      *Client
 	symbol string
+}
+
+var cancelAllOpenOrdersServicePool = sync.Pool{
+	New: func() any {
+		return new(CancelAllOpenOrdersService)
+	},
+}
+
+func (s *CancelAllOpenOrdersService) Free() {
+	s.c = nil
+	cancelAllOpenOrdersServicePool.Put(s)
 }
 
 // Symbol set symbol

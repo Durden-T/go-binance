@@ -422,7 +422,7 @@ func (c *Client) NewListBookTickersService() *ListBookTickersService {
 
 // NewCreateOrderService init creating order service
 func (c *Client) NewCreateOrderService() *CreateOrderService {
-	return &CreateOrderService{c: c}
+	return createOrderServicePool.Get().(*CreateOrderService)
 }
 
 // NewCreateBatchOrdersService init creating batch order service
@@ -442,7 +442,7 @@ func (c *Client) NewCancelOrderService() *CancelOrderService {
 
 // NewCancelAllOpenOrdersService init cancel all open orders service
 func (c *Client) NewCancelAllOpenOrdersService() *CancelAllOpenOrdersService {
-	return &CancelAllOpenOrdersService{c: c}
+	return cancelAllOpenOrdersServicePool.Get().(*CancelAllOpenOrdersService)
 }
 
 // NewCancelMultipleOrdersService init cancel multiple orders service
@@ -472,7 +472,7 @@ func (c *Client) NewGetAccountService() *GetAccountService {
 
 // NewGetBalanceService init getting balance service
 func (c *Client) NewGetBalanceService() *GetBalanceService {
-	return &GetBalanceService{c: c}
+	return getBalanceServicePool.Get().(*GetBalanceService)
 }
 
 // NewGetPositionRiskService init getting position risk service
