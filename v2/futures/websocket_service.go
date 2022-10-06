@@ -843,65 +843,65 @@ type WsUserDataEvent struct {
 
 // WsAccountUpdate define account update
 type WsAccountUpdate struct {
-	Reason    UserDataEventReasonType `json:"m"`
-	Balances  []WsBalance             `json:"B"`
-	Positions []WsPosition            `json:"P"`
+	Reason    UserDataEventReasonType `json:"m,omitempty"`
+	Balances  []WsBalance             `json:"B,omitempty"`
+	Positions []WsPosition            `json:"P,omitempty"`
 }
 
 // WsBalance define balance
 type WsBalance struct {
-	Asset              string `json:"a"`
-	Balance            string `json:"wb"`
-	CrossWalletBalance string `json:"cw"`
-	ChangeBalance      string `json:"bc"`
+	Asset              string `json:"a,omitempty"`
+	Balance            string `json:"wb,omitempty"`
+	CrossWalletBalance string `json:"cw,omitempty"`
+	ChangeBalance      string `json:"bc,omitempty"`
 }
 
 // WsPosition define position
 type WsPosition struct {
-	Symbol                    string           `json:"s"`
-	Side                      PositionSideType `json:"ps"`
-	Amount                    string           `json:"pa"`
-	MarginType                MarginType       `json:"mt"`
-	IsolatedWallet            string           `json:"iw"`
-	EntryPrice                string           `json:"ep"`
-	MarkPrice                 string           `json:"mp"`
-	UnrealizedPnL             string           `json:"up"`
-	AccumulatedRealized       string           `json:"cr"`
-	MaintenanceMarginRequired string           `json:"mm"`
+	Symbol                    string           `json:"s,omitempty"`
+	Side                      PositionSideType `json:"ps,omitempty"`
+	Amount                    string           `json:"pa,omitempty"`
+	MarginType                MarginType       `json:"mt,omitempty"`
+	IsolatedWallet            string           `json:"iw,omitempty"`
+	EntryPrice                string           `json:"ep,omitempty"`
+	MarkPrice                 string           `json:"mp,omitempty"`
+	UnrealizedPnL             string           `json:"up,omitempty"`
+	AccumulatedRealized       string           `json:"cr,omitempty"`
+	MaintenanceMarginRequired string           `json:"mm,omitempty"`
 }
 
 // WsOrderTradeUpdate define order trade update
 type WsOrderTradeUpdate struct {
-	Symbol               string             `json:"s"`
-	ClientOrderID        string             `json:"c"`
-	Side                 SideType           `json:"S"`
-	Type                 OrderType          `json:"o"`
-	TimeInForce          TimeInForceType    `json:"f"`
-	OriginalQty          string             `json:"q"`
-	OriginalPrice        string             `json:"p"`
-	AveragePrice         string             `json:"ap"`
-	StopPrice            string             `json:"sp"`
-	ExecutionType        OrderExecutionType `json:"x"`
-	Status               OrderStatusType    `json:"X"`
-	ID                   int64              `json:"i"`
-	LastFilledQty        string             `json:"l"`
-	AccumulatedFilledQty string             `json:"z"`
-	LastFilledPrice      string             `json:"L"`
-	CommissionAsset      string             `json:"N"`
-	Commission           string             `json:"n"`
-	TradeTime            int64              `json:"T"`
-	TradeID              int64              `json:"t"`
-	BidsNotional         string             `json:"b"`
-	AsksNotional         string             `json:"a"`
-	IsMaker              bool               `json:"m"`
-	IsReduceOnly         bool               `json:"R"`
-	WorkingType          WorkingType        `json:"wt"`
-	OriginalType         OrderType          `json:"ot"`
-	PositionSide         PositionSideType   `json:"ps"`
-	IsClosingPosition    bool               `json:"cp"`
-	ActivationPrice      string             `json:"AP"`
-	CallbackRate         string             `json:"cr"`
-	RealizedPnL          string             `json:"rp"`
+	Symbol               string             `json:"s,omitempty"`
+	ClientOrderID        string             `json:"c,omitempty"`
+	Side                 SideType           `json:"S,omitempty"`
+	Type                 OrderType          `json:"o,omitempty"`
+	TimeInForce          TimeInForceType    `json:"f,omitempty"`
+	OriginalQty          string             `json:"q,omitempty"`
+	OriginalPrice        string             `json:"p,omitempty"`
+	AveragePrice         string             `json:"ap,omitempty"`
+	StopPrice            string             `json:"sp,omitempty"`
+	ExecutionType        OrderExecutionType `json:"x,omitempty"`
+	Status               OrderStatusType    `json:"X,omitempty"`
+	ID                   int64              `json:"i,omitempty"`
+	LastFilledQty        string             `json:"l,omitempty"`
+	AccumulatedFilledQty string             `json:"z,omitempty"`
+	LastFilledPrice      string             `json:"L,omitempty"`
+	CommissionAsset      string             `json:"N,omitempty"`
+	Commission           string             `json:"n,omitempty"`
+	TradeTime            int64              `json:"T,omitempty"`
+	TradeID              int64              `json:"t,omitempty"`
+	BidsNotional         string             `json:"b,omitempty"`
+	AsksNotional         string             `json:"a,omitempty"`
+	IsMaker              bool               `json:"m,omitempty"`
+	IsReduceOnly         bool               `json:"R,omitempty"`
+	WorkingType          WorkingType        `json:"wt,omitempty"`
+	OriginalType         OrderType          `json:"ot,omitempty"`
+	PositionSide         PositionSideType   `json:"ps,omitempty"`
+	IsClosingPosition    bool               `json:"cp,omitempty"`
+	ActivationPrice      string             `json:"AP,omitempty"`
+	CallbackRate         string             `json:"cr,omitempty"`
+	RealizedPnL          string             `json:"rp,omitempty"`
 }
 
 // WsAccountConfigUpdate define account config update
